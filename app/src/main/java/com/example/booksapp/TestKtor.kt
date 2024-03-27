@@ -1,5 +1,8 @@
 package com.example.booksapp
 
+import com.example.booksapp.domain.model.AppKeyResponse
+import com.example.booksapp.domain.model.OAuthKeyResponse
+import com.example.booksapp.domain.model.SessionKeyResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -14,12 +17,9 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-@Serializable
-data class AuthResponse(val id:Int, val status:String, val appkey:String, val createdVNB:String, val req:String)
-@Serializable
-data class OAuthResponse(val id:Int, val status:String, val oauthkey:String, val o_u:String,val createdVNB:String, val req:String)
-@Serializable
-data class CreateSessionKeyResponse(val id:Int, val status:String, val sesskey:String, val createdVNB:String, val req:String)
+
+
+
 
 suspend fun main() {
     val client = HttpClient(Android){
@@ -48,7 +48,7 @@ suspend fun main() {
 //        setBody("PARAMETERS version=1.47&req=createAppkey&appname=booksapp")
     }.body<String>()
 
-    val authenticationKey = jsonSerializer.decodeFromString<AuthResponse>(authenticationResponse).appkey
+    val authenticationKey = jsonSerializer.decodeFromString<AppKeyResponse>(authenticationResponse).appkey
 
 //    val responseString:String = response.body<String>().toString()
     println(authenticationKey)
@@ -68,7 +68,7 @@ suspend fun main() {
         }
     }.body<String>()
 
-    val loginResponse = jsonSerializer.decodeFromString<OAuthResponse>(oAuthResponse)
+    val loginResponse = jsonSerializer.decodeFromString<OAuthKeyResponse>(oAuthResponse)
     println("oauthkey: ${loginResponse.oauthkey}  o_u: ${loginResponse.o_u}")
 
     val createSessionResponse = client.post {
@@ -86,7 +86,7 @@ suspend fun main() {
         }
     }.body<String>()
 
-    val sessKeyResponse = jsonSerializer.decodeFromString<CreateSessionKeyResponse>(createSessionResponse)
+    val sessKeyResponse = jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse)
 
     println("SessionKey: ${sessKeyResponse.sesskey}")
     client.close()
