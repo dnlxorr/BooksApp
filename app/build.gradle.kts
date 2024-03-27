@@ -48,6 +48,7 @@ android {
     }
 }
 val ktor_version: String by project
+val koin_version: String by project
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -66,11 +67,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
-
+    //Ktor for API consumption
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+    //Koin for dependency injection
+    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-androidx-navigation:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
 }
