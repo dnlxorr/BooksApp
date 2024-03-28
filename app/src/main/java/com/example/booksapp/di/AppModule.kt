@@ -8,6 +8,9 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appModule = module {
@@ -21,10 +24,6 @@ val appModule = module {
             }
         }
     }
-    single<AuthenticationRepository>{
-        AuthenticationRepositoryImpl(get())
-    }
-    single{
-        AuthenticationViewModel(get())
-    }
+    singleOf(::AuthenticationRepositoryImpl){bind< AuthenticationRepository>() }
+    viewModelOf(::AuthenticationViewModel)
 }

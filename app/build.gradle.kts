@@ -77,6 +77,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:$koin_version")
     implementation("io.insert-koin:koin-androidx-navigation:$koin_version")
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+    testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
