@@ -2,7 +2,7 @@ package com.example.booksapp.di
 
 import com.example.booksapp.data.repository.AuthenticationRepositoryImpl
 import com.example.booksapp.domain.repository.AuthenticationRepository
-import com.example.booksapp.presentation.screens.login.viewmodel.AuthenticationViewModel
+import com.example.booksapp.presentation.screens.login.viewmodel.LoginViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,5 +25,5 @@ val appModule = module {
         }
     }
     singleOf(::AuthenticationRepositoryImpl){bind< AuthenticationRepository>() }
-    viewModelOf(::AuthenticationViewModel)
+    viewModelOf(::LoginViewModel)
 }

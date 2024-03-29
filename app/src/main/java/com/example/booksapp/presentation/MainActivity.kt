@@ -10,10 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.booksapp.presentation.screens.login.viewmodel.AuthenticationViewModel
+import com.example.booksapp.presentation.screens.login.viewmodel.LoginViewModel
 import com.example.booksapp.presentation.ui.theme.BooksAppTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BooksAppTheme {
-                val viewModel = getViewModel<AuthenticationViewModel>()  // get the instance of the viewmodel in Compose projects
+                val viewModel = getViewModel<LoginViewModel>()  // get the instance of the viewmodel in Compose projects
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Greeting("Android")
