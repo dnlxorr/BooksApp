@@ -5,7 +5,7 @@ import com.example.booksapp.presentation.screens.login.domain.Result
 
 
 class PasswordValidatorUseCase {
-    fun validatePassword(password:String): Result <Unit,PasswordError> {
+    operator fun invoke(password:String): Result <Unit,PasswordError> {
         if(password.length<9){
             return Result.Failure(PasswordError.TOO_SHORT)
         }

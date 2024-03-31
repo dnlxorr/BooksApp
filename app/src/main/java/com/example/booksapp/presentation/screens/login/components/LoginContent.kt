@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,21 +30,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.booksapp.R
 import com.example.booksapp.presentation.components.DefaultButton
 import com.example.booksapp.presentation.components.DefaultTextField
 import com.example.booksapp.presentation.screens.login.domain.Result
 import com.example.booksapp.presentation.screens.login.viewmodel.LoginViewModel
-import com.example.booksapp.presentation.ui.theme.BooksAppTheme
 import com.example.booksapp.presentation.ui.theme.Purple80
 import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.viewModel
 
 @Composable
-fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel = get()) {
+fun LoginContent() {
 
-    val loginFlow = viewModel.loginFlow.collectAsState()
+
+    val loginViewModel =  getViewModel<LoginViewModel>()
+    val loginFlow = loginViewModel.loginFlow.collectAsState()
 
 
     Box(
@@ -67,7 +67,7 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
                     painter = painterResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = "Control de XBox 360"
                 )
-                Text(text = "FIREBASE MVVM")
+                Text(text = "TIMETONIC API CONSUMER")
             }
         }
         Card(
@@ -90,29 +90,29 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
                 Text(text = "Please login to continue", fontSize = 12.sp, color = Color.Gray)
                 DefaultTextField(
                     modifier = Modifier.padding(top = 25.dp),
-                    value = viewModel.email.value,
-                    onValueChange = { value -> viewModel.email.value = value },
+                    value = loginViewModel.email.value,
+                    onValueChange = { value -> loginViewModel.email.value = value },
                     label = "Email",
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
-                    errorMsg = viewModel.emailErrorMsg.value,
+                    errorMsg = loginViewModel.emailErrorMsg.value,
                     validateField = {
-                        viewModel.validateEmail()
+                        loginViewModel.validateEmail()
                     }
 
 
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 5.dp),
-                    value = viewModel.password.value,
-                    onValueChange = { viewModel.password.value = it },
+                    value = loginViewModel.password.value,
+                    onValueChange = { loginViewModel.password.value = it },
                     label = "Password",
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = viewModel.passwordErrorMsg.value,
+                    errorMsg = loginViewModel.passwordErrorMsg.value,
                     validateField = {
-                        viewModel.validatePassword()
+                        loginViewModel.validatePassword()
                     }
                 )
 
@@ -121,8 +121,8 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
                         .fillMaxWidth()
                         .padding(vertical = 20.dp),
                     text = "Login",
-                    onClick = { viewModel.login() },
-                    enable = viewModel.isEnabledLoginButton
+                    onClick = { loginViewModel.login() },
+                    enable = loginViewModel.isEnabledLoginButton
                 )
 
             }
@@ -145,12 +145,12 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
 
             is Result.Failure<*, *> -> Toast.makeText(
                 LocalContext.current,
-                state.error.toString() ?: "Unknown error", Toast.LENGTH_LONG
+                state.error.toString(), Toast.LENGTH_LONG
             ).show()
 
             is Result.Success<*, *> -> {
                 LaunchedEffect(Unit){
-                    navHostController.navigate(route = AppScreen.Profile.route)
+//                    navHostController.navigate(route = AppScreen.BookList.route)
                 }
             }
 
@@ -162,13 +162,9 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    BooksAppTheme(darkTheme = true) {
+    MaterialTheme {
         // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            LoginContent(rememberNavController())
-        }
+            LoginContent()
+
     }
 }

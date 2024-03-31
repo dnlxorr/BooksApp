@@ -1,10 +1,12 @@
 package com.example.booksapp.data.repository
 
-import com.example.booksapp.R
+import android.util.Log
 import com.example.booksapp.domain.model.AppKeyResponse
 import com.example.booksapp.domain.model.OAuthKeyResponse
 import com.example.booksapp.domain.model.SessionKeyResponse
 import com.example.booksapp.domain.repository.AuthenticationRepository
+import com.example.booksapp.presentation.screens.login.domain.OAuthError
+import com.example.booksapp.presentation.screens.login.domain.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
@@ -39,6 +41,8 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 }
             }.body<String>()
 
+            Log.d("Authentication Response","$authenticationResponse")
+
             jsonSerializer.decodeFromString<AppKeyResponse>(authenticationResponse)
         }catch (e: RedirectResponseException){
             //3xx - responses
@@ -59,7 +63,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
         }
     }
 
-    override suspend fun createOAuthKey(authenticationKey:String): OAuthKeyResponse {
+    override suspend fun createOAuthKey(email:String, password:String, authenticationKey:String): Result<OAuthKeyResponse, OAuthError> {
         return try{
             val oAuthResponse = client.post {
                 url("https://timetonic.com/live/api.php")
@@ -70,29 +74,45 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 parameters {
                     parameter("version","1.47")
                     parameter("req","createOauthkey")
-                    parameter("login","android.developer@timetonic.com")
-                    parameter("pwd","Android.developer1")
+                    parameter("login",email)
+                    parameter("pwd",password)
                     parameter("appkey",authenticationKey)
                 }
             }.body<String>()
-            jsonSerializer.decodeFromString<OAuthKeyResponse>(oAuthResponse)
+
+            Log.d("OAuth Response","$oAuthResponse")
+            if (oAuthResponse.contains("nok")) {
+                Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
+            }else{
+                Result.Success(jsonSerializer.decodeFromString<OAuthKeyResponse>(oAuthResponse))
+            }
 
         }catch (e: RedirectResponseException){
             //3xx - responses
-            println("Error: ${e.response.status.description} ")
-            OAuthKeyResponse(0,"","","","","")
+            println("RedirectError: ${e.response.status.description} ")
+            println("RedirectError: ${e.message} ")
+//            OAuthKeyResponse(0,"","","","","")
+            Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
         }catch (e: ClientRequestException){
             //4xx - responses
-            println("Error: ${e.response.status.description} ")
-            OAuthKeyResponse(0,"","","","","")
+            println("ClientError: ${e.response.status.description} ")
+            println("ClientError: ${e.message} ")
+
+//            OAuthKeyResponse(0,"","","","","")
+            Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
         }catch (e: ServerResponseException){
             //5xx - responses
-            println("Error: ${e.response.status.description} ")
-            OAuthKeyResponse(0,"","","","","")
+            println("ServerError: ${e.response.status.description} ")
+            println("ServertError: ${e.message} ")
+
+//            OAuthKeyResponse(0,"","","","","")
+            Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
         }catch (e: Exception){
             //3xx - responses
-            println("Error: ${e.message} ")
-            OAuthKeyResponse(0,"","","","","")
+            println("ExceptionError: ${e.message} ")
+//            OAuthKeyResponse(0,"","","","","")
+            Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
+
         }
     }
 

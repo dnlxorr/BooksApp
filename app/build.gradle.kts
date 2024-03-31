@@ -75,6 +75,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
     //Koin for dependency injection
+    implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-android:$koin_version")
     implementation("io.insert-koin:koin-androidx-navigation:$koin_version")
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
