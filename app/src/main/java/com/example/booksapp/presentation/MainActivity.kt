@@ -10,22 +10,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.booksapp.presentation.screens.login.viewmodel.AuthenticationViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.booksapp.presentation.navigation.AppNavigation
+import com.example.booksapp.presentation.screens.login.viewmodel.LoginViewModel
 import com.example.booksapp.presentation.ui.theme.BooksAppTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-//    private val viewModel by viewModel<AuthenticationViewModel>()   // get the instance of the viewmodel in NON-Compose projects
+    //    private val viewModel by viewModel<AuthenticationViewModel>()   // get the instance of the viewmodel in NON-Compose projects
+    private lateinit var navHostController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BooksAppTheme {
-                val viewModel = getViewModel<AuthenticationViewModel>()  // get the instance of the viewmodel in Compose projects
+//                val viewModel = getViewModel<LoginViewModel>()  // get the instance of the viewmodel in Compose projects
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    navHostController = rememberNavController()
+                    AppNavigation(navHostController)
                 }
             }
         }
@@ -35,8 +43,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-            text = "Hello $name! moto",
-            modifier = modifier
+        text = "Hello $name! moto",
+        modifier = modifier
     )
 }
 

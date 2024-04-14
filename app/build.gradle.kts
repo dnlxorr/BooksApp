@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,9 +75,11 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
 
     //Koin for dependency injection
+    implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-android:$koin_version")
     implementation("io.insert-koin:koin-androidx-navigation:$koin_version")
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+    testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
