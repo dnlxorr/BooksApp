@@ -7,20 +7,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.booksapp.presentation.screens.login.components.Login
 import com.example.booksapp.presentation.screens.login.components.LoginBottomBar
 import com.example.booksapp.presentation.screens.login.components.LoginContent
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navHostController: NavHostController) {
+fun LoginScreen(navHostController: NavHostController = rememberNavController()) {
 
     Scaffold(
         topBar = {},
         content = {
             LoginContent()
         },
-        bottomBar = { LoginBottomBar(navHostController) }
+        bottomBar = { LoginBottomBar() }
     )
+    Login(navHostController = navHostController)
+
 }
 
 

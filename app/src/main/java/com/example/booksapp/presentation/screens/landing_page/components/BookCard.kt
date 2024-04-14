@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.booksapp.data.repository.HttpRoutes
 import com.example.booksapp.domain.model.Book
 
 @Composable
@@ -32,13 +33,13 @@ fun BookCard(book: Book){
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(170.dp),
-                model = book.image,
+                model = HttpRoutes.BASE_URL+ (book.ownerPrefs.oCoverImg?.replace("/dev","") ?: ""),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
             )
             Text(
                 modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp),
-                text = book.name,
+                text = book.ownerPrefs.title,
                 fontWeight = FontWeight.Bold,
             )
 

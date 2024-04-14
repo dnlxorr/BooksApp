@@ -1,5 +1,6 @@
 package com.example.booksapp.presentation.screens.landing_page.components
 
+import AppScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,9 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.booksapp.presentation.navigation.AppNavigation
 
 @Composable
-fun LandingPageBottomBar() {
+fun LandingPageBottomBar(navHostController:NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,9 +30,11 @@ fun LandingPageBottomBar() {
         Spacer(modifier = Modifier.width(7.dp))
         Text(
             modifier = Modifier.clickable {
-//                navHostController.navigate(route = AppScreen.SignUp.route)
+                navHostController.navigate(route = AppScreen.Login.route){
+                    popUpTo(AppScreen.Login.route){inclusive = true}
+                }
             },
-            text = "SIGN UP!",
+            text = "SIGN OUT!",
             fontSize = 14.sp,
             color = Color.Red,
             fontWeight = FontWeight.Bold

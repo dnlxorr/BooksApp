@@ -26,7 +26,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
     override suspend fun createAppKey(appName:String): AppKeyResponse {
         return try {
             val authenticationResponse = client.post {
-                url(HttpRoutes.BASE_URL)
+                url(HttpRoutes.API_URL)
                 method = HttpMethod.Post
                 headers {
                     // Add headers if needed
@@ -125,8 +125,8 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 parameters {
                     parameter("version","1.47")
                     parameter("req","createSesskey")
-                    parameter("o_u",loginResponse.ou)
-                    parameter("o_c",loginResponse.ou)
+                    parameter("o_u",loginResponse.o_u)
+                    parameter("o_c",loginResponse.o_u)
                     parameter("oauthkey",loginResponse.oauthkey)
                 }
             }.body<String>()
@@ -134,7 +134,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
 
 
             JsonSerializer.jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse).also {
-                savesessionData(loginResponse.ou, loginResponse.ou,it.sesskey)
+                savesessionData(loginResponse.o_u, loginResponse.o_u,it.sesskey)
             }
         }catch (e: RedirectResponseException){
             //3xx - responses

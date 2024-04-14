@@ -11,7 +11,9 @@ import com.example.booksapp.presentation.screens.landing_page.domain.usecase.Lan
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
-class LandingPageViewModel(private val landingPageUseCase: LandingPageUseCase):ViewModel() {
+class LandingPageViewModel(
+    private val landingPageUseCase: LandingPageUseCase
+):ViewModel() {
 
     var booksResponse by mutableStateOf<Response<List<Book>>?>(null)
 //    var currentUser = authUseCases.getCurrentUser()

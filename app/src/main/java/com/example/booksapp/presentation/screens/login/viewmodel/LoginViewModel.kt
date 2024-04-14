@@ -3,7 +3,9 @@ package com.example.booksapp.presentation.screens.login.viewmodel
 import android.util.Log
 import android.util.Patterns
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booksapp.presentation.screens.login.data.AndroidEmailPatternValidator
@@ -39,14 +41,13 @@ class LoginViewModel(
 
     var isEnabledLoginButton = false
 
-    private val _loginFlow = MutableStateFlow<Result<String,LoginError>?>(null)
-    val loginFlow: StateFlow<Result<String, LoginError>?> = _loginFlow
+    var loginFlow by mutableStateOf <Result<String,LoginError>?>(null)
+//    val loginFlow: StateFlow<Result<String, LoginError>?> = _loginFlow
 
 
     fun login() = viewModelScope.launch {
-        _loginFlow.value = Result.Loading("")
         val result = authUseCase.login(email.value,password.value)
-        _loginFlow.value = result
+        loginFlow = result
     }
 
     fun enabledLoginButton(){

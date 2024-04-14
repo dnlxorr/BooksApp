@@ -1,13 +1,24 @@
 package com.example.booksapp.domain.model
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Book(
-    var id:String = "",
-    var name: String = "",
-    var image: String
-){
+    val ownerPrefs: OwnerPrefs,
+)
 
-    companion object {
-        fun fromJson(data: String): Book = JsonSerializer.jsonSerializer.decodeFromString<Book>(data)
-    }
-}
+@Serializable
+data class OwnerPrefs(
+    val oCoverImg: String?,
+    val title: String,
+)
+
+@Serializable
+data class AllBooks(
+    val books: List<Book>
+)
+
+@Serializable
+data class BooksResponse(
+    val allBooks: AllBooks
+)

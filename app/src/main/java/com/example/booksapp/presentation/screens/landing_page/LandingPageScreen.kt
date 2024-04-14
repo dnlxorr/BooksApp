@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.booksapp.presentation.components.DefaultTopBar
 import com.example.booksapp.presentation.screens.landing_page.components.GetBooks
@@ -16,13 +17,13 @@ import com.example.booksapp.presentation.screens.login.components.LoginContent
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LandingPageScreen(){
+fun LandingPageScreen(navHostController: NavHostController){
     Scaffold(
         topBar = { DefaultTopBar(title = "Landing Page", upAvailable = false)},
         content = {
             GetBooks()
         },
-        bottomBar = { LandingPageBottomBar() }
+        bottomBar = { LandingPageBottomBar(navHostController = navHostController) }
     )
 }
 
@@ -31,6 +32,6 @@ fun LandingPageScreen(){
 fun DefaultPreview() {
     MaterialTheme {
         // A surface container using the 'background' color from the theme
-        LandingPageScreen()
+        LandingPageScreen(rememberNavController())
     }
 }

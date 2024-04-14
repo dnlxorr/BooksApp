@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun LoginBottomBar(navHostController: NavHostController) {
+fun LoginBottomBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,6 +46,6 @@ fun LoginBottomBar(navHostController: NavHostController) {
 @Composable
 fun PreviewBottomBar(){
     MaterialTheme {
-        LoginBottomBar(rememberNavController())
+        LoginBottomBar()
     }
 }

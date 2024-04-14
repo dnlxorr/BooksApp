@@ -35,7 +35,6 @@ class AuthUseCase(private val authenticationRepository: AuthenticationRepository
                             return Result.Failure(LoginError.SERVER_ERROR)
                         }
 
-                        is Result.Loading -> {}
                     }
                 }
             }else{
