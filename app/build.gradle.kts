@@ -84,6 +84,10 @@ dependencies {
     //    AsyncImage
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    //    Datastore
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-rc01")
+
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
 }

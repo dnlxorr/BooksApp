@@ -2,6 +2,7 @@ package com.example.booksapp.di
 
 import com.example.booksapp.data.repository.AuthenticationRepositoryImpl
 import com.example.booksapp.domain.repository.AuthenticationRepository
+import com.example.booksapp.presentation.screens.landing_page.domain.usecase.LandingPageUseCase
 import com.example.booksapp.presentation.screens.login.domain.usecases.AuthUseCase
 import com.example.booksapp.presentation.screens.login.domain.usecases.EmailPatternValidator
 import com.example.booksapp.presentation.screens.login.viewmodel.LoginViewModel
@@ -28,10 +29,14 @@ val appModule = module {
     }
     singleOf(::AuthenticationRepositoryImpl){bind< AuthenticationRepository>() }
     viewModelOf(::LoginViewModel)
+    viewModelOf(::LandingPageViewModel)
 }
 
 val useCaseModule = module{
     single{
         AuthUseCase(get())
+    }
+    single{
+        LandingPageUseCase(get())
     }
 }

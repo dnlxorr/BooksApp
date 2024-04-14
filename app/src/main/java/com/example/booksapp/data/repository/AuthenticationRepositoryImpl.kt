@@ -1,6 +1,7 @@
 package com.example.booksapp.data.repository
 
 import android.util.Log
+import com.example.booksapp.core.SessionDataStore
 import com.example.booksapp.domain.model.AppKeyResponse
 import com.example.booksapp.domain.model.JsonSerializer
 import com.example.booksapp.domain.model.OAuthKeyResponse
@@ -19,8 +20,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.parameters
-import kotlinx.serialization.json.Json
-import org.koin.android.BuildConfig
 
 class AuthenticationRepositoryImpl(private val client: HttpClient) : AuthenticationRepository {
 
@@ -39,7 +38,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 }
             }.body<String>()
 
-            Log.d("Authentication Response","$authenticationResponse")
+            Log.d("Authentication Response", authenticationResponse)
 
             JsonSerializer.jsonSerializer.decodeFromString<AppKeyResponse>(authenticationResponse)
         }catch (e: RedirectResponseException){
@@ -78,7 +77,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 }
             }.body<String>()
 
-            Log.d("OAuth Response","$oAuthResponse")
+            Log.d("OAuth Response", oAuthResponse)
             if (oAuthResponse.contains("nok")) {
                 Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
             }else{
@@ -126,13 +125,17 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 parameters {
                     parameter("version","1.47")
                     parameter("req","createSesskey")
-                    parameter("o_u",loginResponse.o_u)
-                    parameter("o_c",loginResponse.o_u)
+                    parameter("o_u",loginResponse.ou)
+                    parameter("o_c",loginResponse.ou)
                     parameter("oauthkey",loginResponse.oauthkey)
                 }
             }.body<String>()
 
-            JsonSerializer.jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse)
+
+
+            JsonSerializer.jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse).also {
+                savesessionData(loginResponse.ou, loginResponse.ou,it.sesskey)
+            }
         }catch (e: RedirectResponseException){
             //3xx - responses
             println("Error: ${e.response.status.description} ")
@@ -150,6 +153,12 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
             println("Error: ${e.message} ")
             SessionKeyResponse(0,"","","","")
         }
+    }
+
+    private suspend fun savesessionData(ou:String, uc:String, sesskey:String){
+        SessionDataStore.setOu(ou)
+        SessionDataStore.setUc(uc)
+        SessionDataStore.setSesskey(sesskey)
     }
 
 }

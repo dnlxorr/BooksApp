@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.booksapp.presentation.components.DefaultTopBar
+import com.example.booksapp.presentation.screens.landing_page.components.GetBooks
 import com.example.booksapp.presentation.screens.landing_page.components.LandingPageBottomBar
+import com.example.booksapp.presentation.screens.landing_page.components.LandingPageContent
 import com.example.booksapp.presentation.screens.login.LoginScreen
 import com.example.booksapp.presentation.screens.login.components.LoginBottomBar
 import com.example.booksapp.presentation.screens.login.components.LoginContent
@@ -18,7 +20,7 @@ fun LandingPageScreen(){
     Scaffold(
         topBar = { DefaultTopBar(title = "Landing Page", upAvailable = false)},
         content = {
-            LoginContent()
+            GetBooks()
         },
         bottomBar = { LandingPageBottomBar() }
     )
