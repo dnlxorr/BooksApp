@@ -81,6 +81,9 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
     testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
 
+    //    AsyncImage
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
 }

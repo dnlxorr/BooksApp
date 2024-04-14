@@ -2,7 +2,7 @@
 sealed class AppScreen(val route:String) {
 
     object Login:AppScreen(route = "login")
-    object SignUp:AppScreen(route = "signup")
-    object BookList:AppScreen(route = "booklist")
+//    object SignUp:AppScreen(route = "signup")
+    object LandingPage:AppScreen(route = "booklist")
 
 }

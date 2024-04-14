@@ -2,6 +2,7 @@ package com.example.booksapp.data.repository
 
 import android.util.Log
 import com.example.booksapp.domain.model.AppKeyResponse
+import com.example.booksapp.domain.model.JsonSerializer
 import com.example.booksapp.domain.model.OAuthKeyResponse
 import com.example.booksapp.domain.model.SessionKeyResponse
 import com.example.booksapp.domain.repository.AuthenticationRepository
@@ -23,9 +24,6 @@ import org.koin.android.BuildConfig
 
 class AuthenticationRepositoryImpl(private val client: HttpClient) : AuthenticationRepository {
 
-    private val jsonSerializer = Json{
-        ignoreUnknownKeys = true
-    }
     override suspend fun createAppKey(appName:String): AppKeyResponse {
         return try {
             val authenticationResponse = client.post {
@@ -43,7 +41,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
 
             Log.d("Authentication Response","$authenticationResponse")
 
-            jsonSerializer.decodeFromString<AppKeyResponse>(authenticationResponse)
+            JsonSerializer.jsonSerializer.decodeFromString<AppKeyResponse>(authenticationResponse)
         }catch (e: RedirectResponseException){
             //3xx - responses
             println("Error: ${e.response.status.description} ")
@@ -84,7 +82,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
             if (oAuthResponse.contains("nok")) {
                 Result.Failure(OAuthError.INVALID_EMAIL_PASSWORD)
             }else{
-                Result.Success(jsonSerializer.decodeFromString<OAuthKeyResponse>(oAuthResponse))
+                Result.Success(JsonSerializer.jsonSerializer.decodeFromString<OAuthKeyResponse>(oAuthResponse))
             }
 
         }catch (e: RedirectResponseException){
@@ -134,7 +132,7 @@ class AuthenticationRepositoryImpl(private val client: HttpClient) : Authenticat
                 }
             }.body<String>()
 
-            jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse)
+            JsonSerializer.jsonSerializer.decodeFromString<SessionKeyResponse>(createSessionResponse)
         }catch (e: RedirectResponseException){
             //3xx - responses
             println("Error: ${e.response.status.description} ")
