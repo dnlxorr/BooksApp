@@ -48,6 +48,7 @@ android {
     }
 }
 val ktor_version: String by project
+val koin_version: String by project
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -58,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,11 +68,29 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
+    //NavigationCompose
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
 
+    //Ktor for API consumption
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+    //Koin for dependency injection
+    implementation("io.insert-koin:koin-core:$koin_version")
+    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-androidx-navigation:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+    testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
+
+    //    AsyncImage
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    //    Datastore
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-rc01")
+
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
 }
