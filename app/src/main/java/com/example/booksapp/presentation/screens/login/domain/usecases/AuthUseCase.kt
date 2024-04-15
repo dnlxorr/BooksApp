@@ -42,7 +42,6 @@ class AuthUseCase(private val authenticationRepository: AuthenticationRepository
                 return Result.Failure(LoginError.SERVER_ERROR)
             }
         }
-        return Result.Failure(LoginError.SERVER_ERROR)
     }
 
 }
