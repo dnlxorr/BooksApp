@@ -35,11 +35,6 @@ fun Login(navHostController: NavHostController){
             }
         }
         null -> {
-            Toast.makeText(
-                LocalContext.current,
-                "Context null Login",
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 }
