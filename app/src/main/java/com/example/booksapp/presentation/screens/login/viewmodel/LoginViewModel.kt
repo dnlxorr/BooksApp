@@ -29,7 +29,6 @@ class LoginViewModel(
 
     private val emailValidatorUseCase = AndroidEmailPatternValidator()
     private val passwordValidatorUseCase = PasswordValidatorUseCase()
-//    private val authUseCase = AuthUseCase()
 
     var email: MutableState<String> = mutableStateOf("")
     var isEmailValid: MutableState<Boolean> = mutableStateOf(false)
@@ -42,7 +41,6 @@ class LoginViewModel(
     var isEnabledLoginButton = false
 
     var loginFlow by mutableStateOf <Result<String,LoginError>?>(null)
-//    val loginFlow: StateFlow<Result<String, LoginError>?> = _loginFlow
 
 
     fun login() = viewModelScope.launch {
