@@ -45,7 +45,7 @@ fun LoginContent() {
 
 
     val loginViewModel =  getViewModel<LoginViewModel>()
-    val loginFlow = loginViewModel.loginFlow.collectAsState()
+    val loginFlow = loginViewModel.loginFlow
 
 
     Box(
@@ -130,18 +130,8 @@ fun LoginContent() {
         }
     }
 
-    loginFlow.value?.let { state ->
+    loginFlow?.let { state ->
         when (state) {
-
-            is Result.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-
-                    ) {
-                    CircularProgressIndicator()
-                }
-            }
 
             is Result.Failure<*, *> -> Toast.makeText(
                 LocalContext.current,
